@@ -15,11 +15,12 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use("/api/auth", authRoutes);
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/auth", authRoutes);
 app.use("/api/menu", menuRoutes);
+
 
 const PORT = process.env.PORT || 3000;
 
