@@ -1,3 +1,4 @@
+const protect = require("../middleware/authMiddleware");
 const express = require("express");
 const router = express.Router();
 const MenuItem = require("../models/MenuItem");
@@ -13,7 +14,7 @@ router.get("/", async (req, res) => {
 });
 
 // Skapa ny maträtt
-router.post("/", async (req, res) => {
+router.post("/", protect, async (req, res) => {
     try {
         const { title, description, price } = req.body;
 
@@ -30,7 +31,7 @@ router.post("/", async (req, res) => {
 });
 
 // Uppdatera maträtt
-router.put("/:id", async (req, res) => {
+router.put("/:id", protect, async (req, res) => {
     try {
         const updatedItem = await MenuItem.findByIdAndUpdate(
             req.params.id,
@@ -45,7 +46,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Ta bort maträtt
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", protect, async (req, res) => {
     try {
         await MenuItem.findByIdAndDelete(req.params.id);
         res.json({ message: "Maträtt borttagen" });
