@@ -4,26 +4,28 @@ const authRoutes = require("./routes/authRoutes");
 const express = require("express");
 const cors = require("cors");
 
-// Kopplar databasen till server.js
+// Importerar funktion för databasanslutning
 const connectDB = require("./config/db");
 
-// Kopplar routes till server.js
+// Importerar routes för menyhantering
 const menuRoutes = require("./routes/menuRoutes");
 
 const app = express();
 
+// Ansluter till MongoDB
 connectDB();
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+app.use(cors()); // Tillåter anrop från frontend
+app.use(express.json()); // Gör det möjligt att läsa JSON-data i requests
 
-app.use("/api/auth", authRoutes);
-app.use("/api/menu", menuRoutes);
-
+// Routes
+app.use("/api/auth", authRoutes); // Routes för registrering och inloggning
+app.use("/api/menu", menuRoutes); // Routes för menyhantering
 
 const PORT = process.env.PORT || 3000;
 
+// Startar servern och lyssnar på angiven port
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const MenuItem = require("../models/MenuItem");
 
-// Hämta alla maträtter
+// Hämtar alla maträtter från databasen
 router.get("/", async (req, res) => {
     try {
         const menuItems = await MenuItem.find();
@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-// Skapa ny maträtt
+// Skapar en ny maträtt (kräver inloggad administratör)
 router.post("/", protect, async (req, res) => {
     try {
         const { title, description, price } = req.body;
@@ -30,7 +30,7 @@ router.post("/", protect, async (req, res) => {
     }
 });
 
-// Uppdatera maträtt
+// Uppdaterar en befintlig maträtt via dess ID
 router.put("/:id", protect, async (req, res) => {
     try {
         const updatedItem = await MenuItem.findByIdAndUpdate(
@@ -45,7 +45,7 @@ router.put("/:id", protect, async (req, res) => {
     }
 });
 
-// Ta bort maträtt
+// Tar bort en maträtt via dess ID
 router.delete("/:id", protect, async (req, res) => {
     try {
         await MenuItem.findByIdAndDelete(req.params.id);
@@ -55,4 +55,5 @@ router.delete("/:id", protect, async (req, res) => {
     }
 });
 
+// Exporterar router med API-routes för menyn
 module.exports = router;
